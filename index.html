@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<script src="二叉树.js"></script>
+	<script>
+
+		const myTree = new BSTree()
+			myTree.insert(20);
+			myTree.insert(13);
+			myTree.insert(7);
+			myTree.insert(9);
+			myTree.insert(15);
+			myTree.insert(14);
+			myTree.insert(42);
+			myTree.insert(22);
+			myTree.insert(21);
+			myTree.insert(24);
+		console.log('全部节点', myTree)
+		console.log('搜索节点10', myTree.search(10))	
+		console.log('搜索节点22', myTree.search(22))	
+
+		console.log('-----------------------前序遍历-----------------------')
+		let preOrderTraverseNodes = []
+		myTree.preOrderTraverse(v =>  preOrderTraverseNodes.push(v))
+		console.log(preOrderTraverseNodes.join('-'))
+
+		console.log('-----------------------中序遍历-----------------------')
+		let inOrderTraverseNodes = []
+		myTree.inOrderTraverse(v =>  inOrderTraverseNodes.push(v))
+		console.log(inOrderTraverseNodes.join('-'))
+
+		console.log('-----------------------后序遍历-----------------------')
+		let postOrderTraverseNodes = []
+		myTree.postOrderTraverse(v => postOrderTraverseNodes.push(v))
+		console.log(postOrderTraverseNodes.join('-'))
+
+		console.log('-----------------------销毁节点-----------------------')
+		myTree.destroy()
+		console.log('全部节点', myTree)
+	</script>
+</body>
+</html>
