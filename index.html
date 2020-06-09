@@ -39,8 +39,16 @@
 		myTree.postOrderTraverse(v => postOrderTraverseNodes.push(v))
 		console.log(postOrderTraverseNodes.join('-'))
 
+		console.log('-----------------------最小节点-----------------------')
+		let minNode = myTree.minNodeValue()
+		console.log(minNode)
+
+		console.log('-----------------------最大节点-----------------------')
+		let maxNode = myTree.maxNodeValue()
+		console.log(maxNode)
+
 		console.log('-----------------------销毁节点-----------------------')
-		myTree.destroy()
+		//myTree.destroy()
 		console.log('全部节点', myTree)
 	</script>
 </body>

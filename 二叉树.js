@@ -47,7 +47,19 @@ class BSTree {
 
 	// 销毁
 	destroy() {
-		this[DESTROY_RECUSIVE](this.root)
+		this.root = this[DESTROY_RECUSIVE](this.root);
+	}
+
+	// 求最小节点
+	minNodeValue() {
+		const result = this.minNode(this.root)
+		return result !== null ? result.value : null
+	}
+
+	// 求最大节点
+	maxNodeValue() {
+		const result = this.maxNode(this.root)
+		return result !== null ? result.value : null
 	}
 
 	// 插入节点
@@ -110,25 +122,38 @@ class BSTree {
 	// 销毁
 	[DESTROY_RECUSIVE](node) {
 		if (node !== null) {
-      this[DESTROY_RECUSIVE](node.left);
-      this[DESTROY_RECUSIVE](node.right);
+	      this[DESTROY_RECUSIVE](node.left);
+	      this[DESTROY_RECUSIVE](node.right);
 
-      node = null;
-      this.count--;
-      return node;
-    }
+	      node = null;
+	      this.count--;
+	      return node;
+	    }
 	}
 
 	find(node) {
 
 	}
 
-	getMinNode() {
-
+	minNode(node) {
+		console.log(node)
+		if( node === null ) {
+			return node;
+		}
+		while(node && node.left !== null) {
+			node = node.left
+		}
+		return node;
 	}
 		
-	getMaxNode() {
-
+	maxNode(node) {
+		if(node === null) {
+			return node;
+		}
+		while(node && node.right !== null) {
+			node = node.right
+		}
+		return node;
 	}
 
 }
