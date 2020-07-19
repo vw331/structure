@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	</style>
+</head>
+<body>
+	<div id="app">
+		
+	</div>
+</body>
+<script>
+
+	
+	Object.equal = function(obj1, obj2){
+		const keys1 = Object.keys(obj1)
+		const keys2 = Object.keys(obj2)
+
+		if(keys1.length !== keys2.length) {
+			return false
+		}
+
+		for(let key of keys1) {
+			if(obj1[key] !== obj2[key]) {
+				return false
+			}
+		}
+
+		return true
+	} 
+
+	class Scene {
+
+		constructor() {
+			this.$root = document.querySelector('#app')
+			this.$table = document.createElement('table')
+			this.$tbody = document.createElement('tbody')
+			this.$root.append(this.$table)
+			this.$table.append(this.$tbody)
+			this.col = 50
+			this.row = 50
+			this.center = {x: this.col/2, y: this.row/2}
+			this.delay = 800
+
+			this.snake = []
+			this.$snakeElements = []
+			this.target = {}
+
+
+			this.keepRuning = true
+			this.direction = 'l' //l t b r
+
+			return this;
+		}
+
+		init() {
+
+			const styleEl = document.createElement('style')
+				styleEl.setAttribute('id', 'game-style')
+			document.querySelector('head').append(styleEl)
+			styleEl.innerHTML = ` 
+				.game-wrap {
+					border-collapse: collapse;
+					margin: 0 auto
+				}
+				.game-wrap tr td {
+					width: 8px;
+					height: 8px;
+					border: 1px solid #eaeaea;
+				}
+				.snake {
+					background-color: red
+				}
+			`
+			this.$table.classList.add('game-wrap')
+			this.render()
+			this.bind()
+			this._createTarget()
+			this._initSnake()
+			return this
+		}
+
+		bind() {
+			const self = this
+
+			window.addEventListener('keydown', function(event) {
+				switch(event.keyCode) {
+					case 38: //上
+						if( self.direction !== 'b'){
+							self.direction = 't'
+						}
+					break;
+					case 40: //下
+						if(self.direction !== 't') {
+							self.direction = 'b'
+						}
+					break;
+					case 37: //左
+						if(self.direction !== 'r') {
+							self.direction = 'l'
+						}
+					break;
+					case 39: //右
+						if (self.direction !== 'l') {
+							self.direction = 'r'
+						}
+					break;
+
+				}
+			}, false)
+
+			this.$root.addEventListener('collision', function() {
+				self.keepRuning = false
+				alert('游戏结束')
+
+			})
+
+			this.$root.addEventListener('eat', function() {
+				self._pushTarget.call(self)
+				self._createTarget.call(self)
+				self.delay = self.delay-50
+			})
+
+			this.$root.addEventListener('suicide', function() {
+				self.keepRuning = false
+				alert('自杀行为')
+			})
+		}
+
+		_createTarget() {
+			const x = Math.ceil(Math.random()*this.col)
+			const y = Math.ceil(Math.random()*this.row)
+			this.target = {x, y}
+			this._renderTarget()
+
+		}
+
+		_renderTarget() {
+			const targetEl = document.querySelector(`[index="${this.target.x}-${this.target.y}"]`)
+			targetEl.classList.add('snake')
+		}
+
+		_initSnake() {
+			this.snake = new Array(2)
+				.fill(this.center)
+				.map((p, i) => {
+					return {
+						...p,
+						x: p.x - i
+					}
+				})
+		}
+
+		render() {
+
+			for(let i=0; i<this.row; i++){
+				const $tr = document.createElement('tr')
+				this.$tbody.append($tr)
+				for(let j=0; j<this.col; j++) {
+					const $td = document.createElement('td')
+					$td.setAttribute('index', `${j}-${i}`)
+					$tr.append($td)
+				}
+			}
+
+			return this
+			
+		}
+
+		_compute() {
+			const s = [...this.snake].copyWithin(1)
+			switch(this.direction) {
+				case 't':
+					s[0] = { ...s[0], y: s[0]['y']-1 }
+				break;
+				case 'r':	
+					s[0] = { ...s[0], x: s[0]['x']+1 }
+				break;
+				case 'b':
+					s[0] = { ...s[0], y: s[0]['y']+1 }
+				break;
+				case 'l':
+					s[0] = { ...s[0], x: s[0]['x']-1 }
+				break;		
+			}
+			this.snake = [...s]
+		}
+
+		_pushTarget() {
+			const s = Object.assign(this.target)
+			switch(this.direction) {
+				case 't':
+					s['y'] -- 
+				break;
+				case 'r':	
+					s['x'] ++ 
+				break;
+				case 'b':
+					s['y'] ++
+				break;
+				case 'l':
+					s['x'] --
+				break;		
+			}
+			this.snake = [ s, ...this.snake ]
+		}
+
+		_checkBoundary() {
+			if( this.snake.some(p => p.x < 0 || p.y< 0 || p.x >= this.col || p.y >= this.row ) ) {
+				const event = document.createEvent('Event')
+				event.initEvent('collision', true, true)
+				this.$root.dispatchEvent(event);
+			}
+		}
+
+		_checkSelf() {
+
+			const copySnake = [...this.snake]
+			const firstChild = copySnake.shift()
+			if( copySnake.some(p => Object.equal(p, firstChild) )) {
+				const suicideEvent = new Event('suicide', {"bubbles":true, "cancelable":false})
+				this.$root.dispatchEvent(suicideEvent)
+			}
+		}
+
+		_checkTarget() {
+			if( this.snake.some(p => Object.equal(p, this.target)) ) {
+				const eatEvent = new Event('eat', {"bubbles":true, "cancelable":false});
+				this.$root.dispatchEvent(eatEvent)
+			}
+		}
+
+		_resetSnake() {
+			this.$snakeElements.forEach(el => {
+				el.classList.remove('snake')
+			})
+		}
+
+		_renderSnake() {
+			this._resetSnake()
+			this.$snakeElements = []
+			this.snake.forEach(p => {
+				const sel = document.querySelector(`[index="${p.x}-${p.y}"]`)
+				this.$snakeElements.push(sel)
+				sel.classList.add('snake')
+			})
+		}
+
+
+		run() {
+			if( !this.keepRuning ) return false
+			this._compute()
+			this._checkBoundary()
+			this._checkTarget()
+			this._checkSelf()
+			if( !this.keepRuning ) return false
+			this._resetSnake()
+			this._renderSnake()	
+
+			setTimeout( this.run.bind(this), this.delay)
+		}
+	}
+
+	const s = new Scene().init().run()
+
+</script>
+</html>
