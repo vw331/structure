@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+<textarea name="source" cols="60" rows="10"></textarea>
+<textarea name="target" cols="60" rows="10"></textarea>
+
+<script>
+// test
+// 1
+const str1 = 'abcdefg'
+const re1 = /bc/
+console.log( re1.test(str1)) 
+
+// 2
+
+/**
+*  \s : 空格
+*  \S : 非空格
+*  \d : 数字
+*  \D : 非数字
+*  \w : 字符(字母数字下划线)
+*  \W : 非字符 
+*  . \.代表真正的.
+*  \b : 独立的部分 (起始、结束、空格)
+*  \B : 非独立的部分
+*  \i : 重复的字项
+*
+*  加 i 不区分大小写
+*  加 g 全局匹配
+*
+*  量词: 匹配不确定的位置
+*  + : {1,}至少出现一次
+*  ? : {0,1}出现0次或者1次
+*  * : {0,} 至少出现0次
+*
+*
+*  | 或
+* （） 分组操作
+*  [] 一级相似元素、中括号的整体代表一个字符
+*  ^ 如果写在[]里面，代表排除的意思  eg: a[^b]c  排除中间为b的字符串
+*  - 如果写在[]里面，代表范围的意思  eg: a[a-z0-9A-Z]c 
+* 
+*/ 
+
+const str2 = '345424e5345'
+const re2 = /\D/
+
+if( !re2.test(str2 ) ) {
+  console.log('全是数字')
+}else {
+  console.log('不全是数字')
+}
+
+// search
+/**
+* 正则中的默认 区分大小写
+* 如果不区分大小写，在最后加i
+*/
+const str3 = 'abcdefg'
+const re3 = /B/i
+
+console.log( str3.search(re3) )
+
+// match
+/**
+* 如果匹配成功，就返回匹配成功的数组
+* 正则匹配成功就会结束，不会继续匹配，要全局则加g
+*/
+
+const str4 = 'hai234jio34045bjjhdf3209344rg'
+const re4 = /\d+/g
+console.log( str4.match(re4) ) 
+
+// replace 
+/**
+*
+*
+*
+*/
+const str5 = 'aaa'
+const re5 = /a/g
+
+console.log( str5.replace(re5, 'b') )
+
+const re6 = /<[^>]+>/g
+
+document.querySelector('[name="source"]').addEventListener('input', function(e){
+
+  //const val = e.target.value.replace(re6, '*')
+
+  const val = e.target.value.replace(re6, function(str) {
+    return ''
+  })
+
+  document.querySelector('[name="target"]').value = val
+}, false)
+
+// match 
+const str7 = 'abc'
+const re7 = /(a)(b)(c)/
+console.log( str7.match(re7) )
+
+
+
+</script>
+</body>
+</html>
