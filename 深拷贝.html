@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const obj1 = {
+			a: 1,
+			b: false,
+			c: {
+				a: 2,
+				b: 3
+			},
+			d: [1,2,4,5]
+		}
+
+		const deepClone = source => {
+
+			const type = Object.prototype.toString.call(source)
+			let target
+			console.log(type)
+			if (/Array/.test(type)) {
+				target = source.map(item => deepClone(item))
+			}
+			else if(/Object/.test(type)) {
+				target = {}
+				Object.keys(source).forEach(key => {
+					target[key] = deepClone(source[key])
+				})
+			}
+			else {
+				target = source
+			}
+
+			return target
+		}
+
+		const obj2 = deepClone(obj1)
+		console.log(obj2)
+	</script>
+</body>
+</html>
