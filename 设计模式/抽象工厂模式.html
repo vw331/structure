@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>抽象工厂模式</title>
+</head>
+<body>
+	<script>
+		
+		class AbstractClass {
+			
+			constructor() {
+				if( new.target === AbstractClass ) {
+					throw new Error('抽象化不能实例化')
+				}
+			}
+
+			/* 抽象方法 */
+    		operate() { 
+    			throw new Error('抽象方法不能调用!') 
+    		}
+
+		}
+
+		console.log( new AbstractClass() )
+
+	</script>
+</body>
+</html>

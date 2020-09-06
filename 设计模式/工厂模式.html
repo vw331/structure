@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>工厂模式</title>
+</head>
+<body>
+	<script>
+
+		class yxrs {
+			constructor() {
+				this.type = '鱼香肉丝'
+			}
+		}
+
+		class gbjd {
+			constructor() {
+				this.type = '宫保鸡丁'
+			}
+		}
+
+		/**
+		 * 饭店方法
+		 */
+		class Restaurant {
+			static getMenu(name) {
+				switch(name) {
+					case '鱼香肉丝':
+						return new yxrs()
+					case '宫保鸡丁':
+						return new gbjs()
+					default:
+            throw new Error('这个菜本店没有 -。-')
+				}
+			}	
+		}
+
+		try {
+			const food = Restaurant.getMenu('宫保鸡丁a')
+		}catch(e){
+			console.log( e.message )
+		}
+	</script>
+</body>
+</html>

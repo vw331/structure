@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>中间件</title>
+</head>
+<body>
+	<script>
+		class Express {
+
+			constructor() {
+				this.middlewears = []
+				this.middlewearGenerator = null
+			}
+
+			use(fn) {
+				this.middlewears.push(fn)
+			}
+
+			http(ctx) {
+
+				const next = () => {
+					let middle = this.middlewears.shift()
+					middle && middle.apply(this, [ctx, next])
+				}
+
+				next()
+
+			}
+		}
+
+		const app = new Express()
+
+		app.use(function(ctx, next){
+			
+			setTimeout(() => {
+				console.log('这里是第一个中间件')
+				console.log('ctx=', ctx)
+				next()
+			}, 2000)
+			
+		})
+
+		app.use(function(ctx, next){
+			setTimeout(() => {
+				console.log('这里是第二个中间件')
+				console.log('ctx=', ctx)
+				next()
+			}, 1000)
+
+		})
+
+		app.http('hello')
+
+	</script>
+</body>
+</html>

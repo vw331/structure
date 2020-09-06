@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>for in and for of</title>
+</head>
+<body>
+	<script>
+		Array.prototype.method = function() {
+			console.log('method')
+		}
+		const arr = [1,2,4,5,6,7]
+		arr.name = 'test'
+		console.log('------for in--------')
+		for( let index in arr ) {
+			console.log(`${index}: ${arr[index]}`)
+		}
+
+		console.log('------foe of------')
+		for( let item of arr) {
+			console.log(item)
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>发布订阅</title>
+</head>
+<body>
+	<button class="btn">button</button>
+	<script>
+		
+
+		class EventHub {
+
+			constructor(selector) {
+				this.root = document.querySelector(selector)
+				this.listeners = {}
+				return this
+			}
+
+			on(eventName, fn) {
+				if(!this.listeners[eventName]) {
+					this.listeners[eventName] = []
+				}
+				this.listeners[eventName].push(fn)
+			}
+
+			off(eventName, fn) {
+				if( this.listeners[eventName] && !fn ) {
+					delete this.listeners[eventName]
+				}
+				if( !this.listeners[eventName] || !this.listeners[eventName].includes(fn) )
+					return 
+
+				const idx = this.listeners[eventName].indexOf(fn)
+				this.listeners[eventName].splice(idx, 1)
+			}
+
+			trigger(eventName, ...res) {
+				this.listeners[eventName].forEach(fn => fn.apply(this, res))
+			}
+		}
+
+		const $ = selector => new EventHub(selector)
+
+
+		const dom = $('.btn')
+
+		dom.on('abc', function() {
+			alert('abc')
+		})
+
+		dom.on('abc', function() {
+			alert('abc2')
+		})
+
+		const fn3 = function() {
+			alert('abc3')
+		}
+
+		dom.on('abc', fn3)
+
+
+		dom.trigger('abc')
+
+
+	</script>
+</body>
+</html>

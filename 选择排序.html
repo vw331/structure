@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选择排序</title>
+</head>
+<body>
+	<script>
+		const source = [3,6,1,6,9,4,6,3,13]
+
+		const selectionSort = arr => {
+
+			for(let i=0; i<arr.length; i++) {
+				let mini = i;
+				for (let j=i+1; j<arr.length; j++) {
+					if( arr[j]<arr[i] ) {
+						mini = j
+					}
+				}
+				if(mini != i) {
+					let miniNum = arr[mini]
+					arr[mini] = arr[i]
+					arr[i] = miniNum
+				}
+			}
+
+			return arr
+		}
+
+		const result = selectionSort(source)
+		console.log( result )
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>单例模式</title>
+</head>
+<body>
+	<script>
+		// 构造函数单例
+		class User {
+
+			constructor(name) {
+				if( User.instance ) 
+					return User.instance;
+				this.name = name
+				User.instance = this
+			}
+
+		}
+
+		const u1 = new User('sun')
+		const u2 = new User('hao')
+		console.log( u1 === u2 )
+	</script>
+</body>
+</html>
