@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>链表</title>
+</head>
+<body>
+<script>
+	
+	function LinkedList() {
+
+		var Node = function(element) {
+			this.element = element;
+			this.next = null;
+		}
+
+		var length = 0
+		var head = null
+
+		this.append = function(element) {
+			const node = new Node(element)
+			let current
+			if(head == null) {
+				head = node
+			}else{
+				current = head
+				while(current.next) {
+					current = current.next
+				}
+				current.next = node
+			}
+			length ++
+		}
+
+		this.removeAt = function(position) {
+			if(position >= length) {
+				throw new Error('超过最大长度')
+			}
+			if( position == 0 ){
+				head = head.next
+			}else {
+				let current = head
+				let prev = head
+				let i=0
+				while( i< position ) {
+					prev = current
+					current = current.next
+					i++
+				}
+				prev.next = current.next
+			}
+			length --
+		}
+
+		this.indexOf = function(element) {
+			let current = head
+			let index = 0
+
+			while(current) {
+				if(current.element == element) {
+					return index
+				}
+				index ++
+				current = current.next
+			}
+			return -1
+		}
+
+		this.remove = function(element) {
+			let current = head
+			let prev = head
+			if(current.element == element) {
+				head = current.next
+			}else {
+				while(current) {
+					if(current.element == element) {
+						prev.next = current.next
+						length --
+						break
+					}
+					prev = current
+					current = current.next
+				}
+			}
+		}
+
+		this.isEmpty = function() {
+			return length == 0
+		}
+
+		this.size = function() {
+			return length
+		}
+
+		this.toString = function() {
+			let current = head
+			let nodeArr = [  ]
+			while(current) {
+				nodeArr.push(current.element)
+				current = current.next
+			}
+			return nodeArr.join('->')
+		}
+
+	}
+
+	const list = new LinkedList()
+	list.append(1)
+	list.append(2)
+	list.append(5)
+	list.append(7)
+	list.append(9)
+	list.append(5)
+
+	console.log( list.toString() )
+	list.removeAt(3)
+	console.log(`size = ${list.size()}`)
+	//console.log( `5 in index: ${list.indexOf(5)}` )
+	console.log( list.toString() )
+
+</script>
+</body>
+</html>

@@ -6,15 +6,21 @@
 </head>
 <body>
 <script>
-	function Person() {}
+	
+var twoSum = function(nums, target) {
 
-	Person.prototype.age = 0
+	const m = new Map();
+    for (const [i, val] of nums.entries()) {
+        const be = target - val
+        if( m.has(be)  ) {
+            return [m.get(be), i]
+        }
+        m.set(val, i)
+    }
+    return []
+};
 
-	var p1 = new Person()
-	var p2 = new Person()
-	console.log(p1.age, p1.age)
-	p1.age = 18
-	console.log(p1.age, p1.age)
+console.log( twoSum([2,7,11,15], 9) )
 
 </script>	
 </body>
