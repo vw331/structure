@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>object create</title>
+</head>
+<body>
+	<script>
+		
+		function Person(name) {
+			console.log(name)
+			this.name = name
+		}
+
+		Person.prototype.eat = function() {
+			console.log('i am eat')
+		}
+
+		function User(name) {
+			Person.call(this, name)
+		}
+
+		User.prototype = Object.create(Person.prototype)
+
+		User.prototype.constructor = User
+
+
+		const user = new User('sunhao')
+
+		console.log(user)
+
+	</script>
+</body>
+</html>

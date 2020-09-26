@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>call</title>
+</head>
+<body>
+	<script>
+		
+		Function.prototype._call = function(context, ...rest) {
+			const self = this
+			const key = Symbol('key')
+			context[key] = self
+			const res = context[key](rest)
+			delete context[key]
+			return res
+		}
+
+		var obj1 = {
+			name: 'sunhao',
+			sing: function(test) {
+				alert(test + this.name)
+			}
+		}
+
+		var obj2 = {
+			name: 'lili'
+		}
+
+		obj1.sing._call(obj2, 'hello ')
+
+	</script>
+</body>
+</html>

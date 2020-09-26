@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>节流函数</title>
+</head>
+<body>
+	<div style="height: 4000px"></div>
+	<script>
+		const throttle = (fn, delay=500) => {
+			let firstTime = Date.now()
+			return function() {
+				let lastTime = Date.now()
+				if( lastTime - firstTime > delay) {
+					fn.apply(this, arguments)
+					firstTime = Date.now()
+				}
+			}
+		}
+
+		window.addEventListener('scroll', throttle(function() {
+			console.log('scroll')
+		}))
+	</script>
+</body>
+</html>

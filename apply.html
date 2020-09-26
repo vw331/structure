@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>apply</title>
+</head>
+<body>
+	<script>
+		
+		Function.prototype._apply = function(context, arg = []) {
+			const self = this 
+			const key = Symbol('_apply')
+			context[key] = self
+			const res = context[key](...arg)
+			delete context[key]
+			return res
+		}
+
+		var obj1 = {
+			name: 'sunhao',
+			sing: function(test) {
+				alert(test + this.name)
+			}
+		}
+
+		var obj2 = {
+			name: 'lili'
+		}
+
+		obj1.sing._apply(obj2, ['hello '])
+	</script>
+</body>
+</html>

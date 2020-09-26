@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>bind</title>
+</head>
+<body>
+	<script>
+		
+		Function.prototype._bind = function(context, ...rest) {
+			const self = this
+			const newFunc = function(...arg) {
+				if( this instanceof newFunc ) {
+					self.apply(this, [...rest, ...arg])
+				}else {
+					self.apply(context, [...rest, ...arg])
+				}
+			}
+			newFunc.prototype = Object.create(self.prototype)
+			return newFunc
+		}
+
+		var obj1 = {
+			name: 'sunhao',
+			sing: function(test) {
+				alert(this.name)
+			}
+		}
+
+		var obj2 = {
+			name: 'lili'
+		}
+
+		var obj2sing = obj1.sing._bind(obj2)
+
+
+		obj2sing()
+
+	</script>
+</body>
+</html>

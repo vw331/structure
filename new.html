@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>new</title>
+</head>
+<body>
+	<script>
+		const myNew = (Func, ...args) => {
+			const instance = Object.create(null)
+			if( Func.prototype) {
+				Object.setPrototypeOf(instance, Func.prototype)
+			}
+			const res = Func.apply(instance, args)
+			if (typeof res === "function" || (typeof res === "object" && res !== null)) {
+			   return res
+			}
+			return instance
+		}
+
+		function User(name) {
+			this.name = name
+		}
+
+		User.prototype.sing = function() {
+			alert(this.name)
+		}
+
+		const sun = myNew(User, 'sun hao')
+		console.log(sun)
+	</script>
+</body>
+</html>

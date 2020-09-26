@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+<meta charset="UTF-8">
+<title>Document</title>
 </head>
 <body>
-<script>
-	
-var twoSum = function(nums, target) {
-
-	const m = new Map();
-    for (const [i, val] of nums.entries()) {
-        const be = target - val
-        if( m.has(be)  ) {
-            return [m.get(be), i]
+    <a href="javascript: goto()">hello</a>
+    <script>
+        class User {
+        	a = 1
+        	b = {
+        		name: 'sun',
+        		age: 12	
+        	}
+        	constructor() {
+        		this.c = 'zfx'
+        		this.d = {
+        			name: 'mike',
+        			age: 23
+        		}
+        	}
         }
-        m.set(val, i)
-    }
-    return []
-};
-
-console.log( twoSum([2,7,11,15], 9) )
-
-</script>	
+        const u1 = new User()
+        const u2 = new User()
+    </script>
 </body>
 </html>
